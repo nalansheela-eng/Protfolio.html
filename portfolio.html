@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K Dhana Sheela — Data Analytics Intern | Aspiring Data Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E1E1D;
+    --surface:#153230;
+    --ink:#EAF3F1;
+    --muted:#8FADA8;
+    --amber:#F2A63C;
+    --mint:#4FD1C5;
+    --line:#254745;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'IBM Plex Sans',sans-serif;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:940px;margin:0 auto;padding:0 28px;}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--amber); outline-offset:3px;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+
+  /* subtle grid texture backdrop */
+  body::before{
+    content:'';
+    position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(79,209,197,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(79,209,197,0.045) 1px, transparent 1px);
+    background-size:42px 42px;
+  }
+
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(14,30,29,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; padding:18px 28px;}
+  .logo{font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:500; letter-spacing:0.02em;}
+  .logo span{color:var(--amber);}
+  .navlinks{display:flex; gap:26px; font-size:13.5px; color:var(--muted);}
+  .navlinks a:hover{color:var(--mint);}
+  @media (max-width:680px){ .navlinks{display:none;} }
+
+  /* HERO */
+  .hero{padding:88px 0 60px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--mint);
+    display:flex; align-items:center; gap:9px; margin-bottom:24px; letter-spacing:0.04em;
+  }
+  .eyebrow::before{
+    content:''; width:7px; height:7px; border-radius:50%; background:var(--mint);
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+  h1{
+    font-family:'Fraunces',serif; font-optical-sizing:auto;
+    font-size:clamp(40px,6.5vw,68px); font-weight:600;
+    letter-spacing:-0.01em; line-height:1.04; margin-bottom:18px;
+  }
+  .role-line{
+    font-family:'IBM Plex Mono',monospace; font-size:clamp(15px,2.2vw,18px);
+    color:var(--amber); margin-bottom:26px; min-height:26px;
+  }
+  .role-line .cursor{
+    display:inline-block; width:2px; height:1em; background:var(--amber);
+    margin-left:2px; vertical-align:-2px; animation:blink 1s step-start infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+  .hero p.lede{max-width:580px; color:var(--muted); font-size:16px; margin-bottom:40px;}
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    font-family:'IBM Plex Sans',sans-serif; font-weight:600; font-size:14px;
+    padding:13px 26px; border-radius:4px; transition:all .18s ease; display:inline-block;
+  }
+  .btn-primary{background:var(--amber); color:#12211F;}
+  .btn-primary:hover{background:var(--mint);}
+  .btn-ghost{border:1px solid var(--line); color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--mint); color:var(--mint);}
+
+  /* PIPELINE — signature element */
+  .pipeline{
+    margin-top:56px; display:flex; align-items:center; gap:0;
+    border:1px solid var(--line); border-radius:8px; padding:22px 24px;
+    background:var(--surface); overflow-x:auto;
+  }
+  .pipe-stage{
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted);
+    min-width:100px; position:relative;
+  }
+  .pipe-dot{width:10px; height:10px; border-radius:50%; background:var(--line); border:2px solid var(--muted);}
+  .pipe-stage.active .pipe-dot{background:var(--mint); border-color:var(--mint);}
+  .pipe-stage.active{color:var(--mint);}
+  .pipe-connector{
+    flex:1; height:2px; background:var(--line); position:relative; min-width:24px;
+    margin-bottom:20px;
+  }
+  .pipe-connector::after{
+    content:''; position:absolute; top:-2px; left:0; width:8px; height:6px;
+    background:var(--amber); border-radius:2px;
+    animation:flow 3.2s linear infinite;
+  }
+  @keyframes flow{
+    0%{left:0; opacity:0;} 10%{opacity:1;} 90%{opacity:1;} 100%{left:calc(100% - 8px); opacity:0;}
+  }
+
+  /* SECTION HEADER */
+  .section{padding:76px 0; border-top:1px solid var(--line);}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin-bottom:42px;}
+  .sec-num{font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--amber);}
+  .sec-title{font-family:'Fraunces',serif; font-size:30px; font-weight:600; letter-spacing:-0.01em;}
+
+  /* ABOUT */
+  .about-grid{display:grid; grid-template-columns:1.3fr 1fr; gap:48px;}
+  .about-grid p{color:var(--ink); margin-bottom:16px; font-size:15.5px;}
+  .about-grid p:last-child{margin-bottom:0;}
+  .info-card{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:24px; height:fit-content;}
+  .info-row{display:flex; justify-content:space-between; padding:11px 0; border-bottom:1px solid var(--line); font-size:14px;}
+  .info-row:last-child{border-bottom:none;}
+  .info-row .label{color:var(--muted); font-family:'IBM Plex Mono',monospace; font-size:11.5px;}
+  @media (max-width:720px){.about-grid{grid-template-columns:1fr;}}
+
+  /* SKILLS AS PIPELINE STAGES */
+  .skill-stage{
+    display:grid; grid-template-columns:180px 1fr; gap:20px; padding:22px 0;
+    border-bottom:1px solid var(--line); align-items:start;
+  }
+  .skill-stage:last-child{border-bottom:none;}
+  .stage-label{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--mint);}
+  .stage-name{font-family:'Fraunces',serif; font-size:19px; font-weight:600; margin-top:4px;}
+  .chips{display:flex; flex-wrap:wrap; gap:9px;}
+  .chip{
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; padding:7px 13px;
+    border:1px solid var(--line); border-radius:5px; background:var(--surface);
+    transition:border-color .15s, color .15s;
+  }
+  .chip:hover{border-color:var(--amber); color:var(--amber);}
+  @media (max-width:640px){
+    .skill-stage{grid-template-columns:1fr; gap:8px;}
+  }
+
+  /* PROJECTS */
+  .projects{display:grid; gap:18px;}
+  .project-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:8px;
+    padding:28px; transition:transform .18s ease, border-color .18s ease;
+  }
+  .project-card:hover{transform:translateY(-3px); border-color:var(--mint);}
+  .project-top{display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:10px;}
+  .project-title{font-family:'Fraunces',serif; font-size:20px; font-weight:600;}
+  .project-links{display:flex; gap:12px; font-size:13px; color:var(--mint); white-space:nowrap;}
+  .project-desc{color:var(--muted); font-size:14.5px; margin-bottom:16px;}
+  .project-stack{display:flex; flex-wrap:wrap; gap:8px;}
+  .tag{
+    font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted);
+    background:var(--bg); border:1px solid var(--line); padding:4px 9px; border-radius:4px;
+  }
+
+  /* EXPERIENCE TIMELINE */
+  .timeline{border-left:2px solid var(--line); padding-left:28px; margin-left:4px;}
+  .tl-item{position:relative; padding-bottom:34px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-item::before{
+    content:''; position:absolute; left:-33.5px; top:4px;
+    width:9px; height:9px; border-radius:50%; background:var(--amber);
+    border:3px solid var(--bg); box-shadow:0 0 0 2px var(--amber);
+  }
+  .tl-date{font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--amber); margin-bottom:6px;}
+  .tl-title{font-family:'Fraunces',serif; font-size:18px; font-weight:600; margin-bottom:4px;}
+  .tl-org{color:var(--muted); font-size:14px; margin-bottom:8px;}
+  .tl-desc{font-size:14px;}
+
+  /* ACHIEVEMENTS */
+  .achieve-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px;}
+  .achieve-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:8px;
+    padding:22px; display:flex; gap:14px; align-items:flex-start;
+  }
+  .achieve-icon{
+    width:36px; height:36px; border-radius:7px; background:rgba(242,166,60,0.12);
+    color:var(--amber); display:flex; align-items:center; justify-content:center;
+    font-size:16px; flex-shrink:0;
+  }
+  .achieve-title{font-family:'Fraunces',serif; font-size:15.5px; font-weight:600; margin-bottom:4px;}
+  .achieve-org{font-size:13px; color:var(--muted); margin-bottom:6px;}
+  .achieve-date{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--mint);}
+  @media (max-width:640px){.achieve-grid{grid-template-columns:1fr;}}
+
+  /* TESTIMONIALS */
+  .testimonial-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-top:40px;}
+  .testimonial-card{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:26px;}
+  .testimonial-quote{font-size:14.5px; margin-bottom:18px;}
+  .testimonial-quote::before{content:'“'; color:var(--amber); font-family:'Fraunces',serif; font-size:22px;}
+  .testimonial-quote::after{content:'”'; color:var(--amber); font-family:'Fraunces',serif; font-size:22px;}
+  .testimonial-person{display:flex; align-items:center; gap:12px;}
+  .avatar{
+    width:38px; height:38px; border-radius:50%; background:var(--mint);
+    color:#0E1E1D; display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces',serif; font-size:14px; font-weight:600;
+  }
+  .person-name{font-size:13.5px; font-weight:600;}
+  .person-role{font-size:12px; color:var(--muted);}
+  .sub-note{font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--muted); margin-top:12px;}
+  @media (max-width:640px){.testimonial-grid{grid-template-columns:1fr;}}
+
+  /* CONTACT */
+  .contact-box{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:56px 40px; text-align:center;}
+  .contact-box h2{font-family:'Fraunces',serif; font-size:clamp(28px,4vw,40px); margin-bottom:14px;}
+  .contact-box p{color:var(--muted); max-width:480px; margin:0 auto 32px;}
+  .contact-links{display:flex; justify-content:center; gap:16px; flex-wrap:wrap;}
+  .contact-links a{
+    font-family:'IBM Plex Mono',monospace; font-size:13.5px; padding:12px 22px;
+    border:1px solid var(--line); border-radius:5px; transition:border-color .15s, color .15s;
+  }
+  .contact-links a:hover{border-color:var(--amber); color:var(--amber);}
+
+  footer{text-align:center; padding:32px 0 48px; color:var(--muted); font-size:12.5px; font-family:'IBM Plex Mono',monospace;}
+
+  @media (max-width:600px){
+    .hero{padding:60px 0 44px;}
+    .section{padding:56px 0;}
+    .contact-box{padding:40px 22px;}
+    .pipeline{padding:18px;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo">dhana<span>.</span>sheela</div>
+    <div class="navlinks">
+      <a href="#about">About</a>
+      <a href="#skills">Pipeline</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#achievements">Achievements</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">OPEN TO WORK</div>
+    <h1>K Dhana Sheela</h1>
+    <div class="role-line" id="roleLine"></div>
+    <p class="lede">Pre-final year B.Tech student in Artificial Intelligence &amp; Data Science at JP College of Engineering, Tenkasi. I move data through a pipeline of curiosity — ingest, clean, question, and ship — with Python, SQL, Spark and Airflow as my tools.</p>
+    <div class="cta-row">
+      <a href="#projects" class="btn btn-primary">View projects</a>
+      <a href="#contact" class="btn btn-ghost">Get in touch</a>
+    </div>
+
+    <div class="pipeline" aria-hidden="true">
+      <div class="pipe-stage active"><div class="pipe-dot"></div>Ingest</div>
+      <div class="pipe-connector"></div>
+      <div class="pipe-stage active"><div class="pipe-dot"></div>Clean</div>
+      <div class="pipe-connector"></div>
+      <div class="pipe-stage active"><div class="pipe-dot"></div>Analyze</div>
+      <div class="pipe-connector"></div>
+      <div class="pipe-stage"><div class="pipe-dot"></div>Model</div>
+      <div class="pipe-connector"></div>
+      <div class="pipe-stage"><div class="pipe-dot"></div>Ship</div>
+    </div>
+  </div>
+</header>
+
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">About</span></div>
+    <div class="about-grid">
+      <div>
+        <p>I'm a pre-final year B.Tech student in Artificial Intelligence and Data Science at JP College of Engineering, Tenkasi. I'm currently a Data Analytics Intern at Thiranex, working with real datasets to find the patterns that actually matter.</p>
+        <p>Along the way I've completed internships in Machine Learning (Cognifyz Technologies), Python Programming (CodeAlpha), and Full Stack with AI (IP Mega) — each one adding a stage to how I think about data: not just collecting it, but cleaning it, questioning it, and building something useful with it. I'm working toward a career in data engineering.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-row"><span class="label">EDUCATION</span><span>B.Tech AI &amp; DS</span></div>
+        <div class="info-row"><span class="label">COLLEGE</span><span>JP College of Engg.</span></div>
+        <div class="info-row"><span class="label">YEAR</span><span>Pre-Final Year</span></div>
+        <div class="info-row"><span class="label">LOCATION</span><span>Tenkasi, TN</span></div>
+        <div class="info-row"><span class="label">FOCUS</span><span>Data Engineering</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="skills">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">Skills, by stage</span></div>
+
+    <div class="skill-stage">
+      <div><div class="stage-label">01 · INGEST</div><div class="stage-name">Collect</div></div>
+      <div class="chips">
+        <span class="chip">Python</span><span class="chip">MySQL</span><span class="chip">Hadoop</span>
+      </div>
+    </div>
+
+    <div class="skill-stage">
+      <div><div class="stage-label">02 · PROCESS</div><div class="stage-name">Transform</div></div>
+      <div class="chips">
+        <span class="chip">Spark</span><span class="chip">Apache Airflow</span><span class="chip">Pandas</span>
+      </div>
+    </div>
+
+    <div class="skill-stage">
+      <div><div class="stage-label">03 · ANALYZE</div><div class="stage-name">Learn</div></div>
+      <div class="chips">
+        <span class="chip">Machine Learning</span><span class="chip">Data Analytics</span><span class="chip">AWS</span>
+      </div>
+    </div>
+
+    <div class="skill-stage">
+      <div><div class="stage-label">04 · SHIP</div><div class="stage-name">Build</div></div>
+      <div class="chips">
+        <span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">JavaScript</span><span class="chip">Figma</span><span class="chip">UI Design</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="projects">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">03</span><span class="sec-title">Projects</span></div>
+    <div class="projects">
+
+      <div class="project-card">
+        <div class="project-top">
+          <div class="project-title">CampusConnect</div>
+          <div class="project-links"><a href="#">GitHub →</a></div>
+        </div>
+        <div class="project-desc">A fullstack college event &amp; notice board where students track club events, RSVP, and get reminders. Built solo to practice end-to-end app design, from schema to UI.</div>
+        <div class="project-stack">
+          <span class="tag">React</span><span class="tag">Node.js</span><span class="tag">MongoDB</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-top">
+          <div class="project-title">AttendaSense</div>
+          <div class="project-links"><a href="#">GitHub →</a></div>
+        </div>
+        <div class="project-desc">A data pipeline that ingests raw attendance CSVs, cleans them with Pandas, and surfaces at-risk students through simple trend charts.</div>
+        <div class="project-stack">
+          <span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">SQL</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-top">
+          <div class="project-title">SkillFolio</div>
+          <div class="project-links"><a href="#">GitHub →</a></div>
+        </div>
+        <div class="project-desc">This portfolio site — designed in Figma first, then hand-coded, applying UI/UX principles to a real, live project.</div>
+        <div class="project-stack">
+          <span class="tag">HTML/CSS</span><span class="tag">JavaScript</span><span class="tag">Figma</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section" id="experience">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">04</span><span class="sec-title">Experience &amp; Education</span></div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">Jun 2026 — Jul 2026</div>
+        <div class="tl-title">Data Analytics Intern</div>
+        <div class="tl-org">Thiranex · Remote</div>
+        <div class="tl-desc">Worked with real datasets to analyze trends and support data-driven decisions.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">May 2026</div>
+        <div class="tl-title">Python Programming Intern</div>
+        <div class="tl-org">CodeAlpha</div>
+        <div class="tl-desc">Completed a virtual internship strengthening Python programming fundamentals.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Mar 2026 — Apr 2026</div>
+        <div class="tl-title">Machine Learning Intern</div>
+        <div class="tl-org">Cognifyz Technologies</div>
+        <div class="tl-desc">Worked on ML projects and tasks — collecting, cleaning, and interpreting data to derive insights.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Dec 2025 — Jan 2026</div>
+        <div class="tl-title">Full Stack with AI Intern</div>
+        <div class="tl-org">IP Mega · On-site</div>
+        <div class="tl-desc">Worked on fullstack development practices integrated with AI concepts.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2023 — Present</div>
+        <div class="tl-title">B.Tech, Artificial Intelligence &amp; Data Science</div>
+        <div class="tl-org">JP College of Engineering, Tenkasi</div>
+        <div class="tl-desc">Pre-final year student, building a foundation across data structures, AI/ML, and software engineering.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="achievements">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">05</span><span class="sec-title">Achievements &amp; Certifications</span></div>
+
+    <div class="achieve-grid">
+      <div class="achieve-card">
+        <div class="achieve-icon">🏆</div>
+        <div>
+          <div class="achieve-title">Certificate of Excellence — Techathon '26</div>
+          <div class="achieve-org">JP College of Engineering, AI &amp; DS Dept.</div>
+          <div class="achieve-date">2026</div>
+        </div>
+      </div>
+
+      <div class="achieve-card">
+        <div class="achieve-icon">📡</div>
+        <div>
+          <div class="achieve-title">Tech Discovery Workshop &amp; Industrial Visit — IoT Sensors</div>
+          <div class="achieve-org">Maker Village &amp; IIITM-K</div>
+          <div class="achieve-date">Apr 2026</div>
+        </div>
+      </div>
+
+      <div class="achieve-card">
+        <div class="achieve-icon">🎖️</div>
+        <div>
+          <div class="achieve-title">Certificate of Honour &amp; Achievement — Sports Meet</div>
+          <div class="achieve-org">JP College of Engineering</div>
+          <div class="achieve-date">2026</div>
+        </div>
+      </div>
+
+      <div class="achieve-card">
+        <div class="achieve-icon">👩‍🍳</div>
+        <div>
+          <div class="achieve-title">Cooking Without Fire — Women's Day Event</div>
+          <div class="achieve-org">VTSR Silks &amp; JP Group of Institutions</div>
+          <div class="achieve-date">Mar 2026</div>
+        </div>
+      </div>
+
+      <div class="achieve-card">
+        <div class="achieve-icon">🐍</div>
+        <div>
+          <div class="achieve-title">Python Programming Internship — Certificate of Completion</div>
+          <div class="achieve-org">CodeAlpha</div>
+          <div class="achieve-date">May 2026</div>
+        </div>
+      </div>
+
+      <div class="achieve-card">
+        <div class="achieve-icon">🤖</div>
+        <div>
+          <div class="achieve-title">Machine Learning Internship — Certificate of Completion</div>
+          <div class="achieve-org">Cognifyz Technologies</div>
+          <div class="achieve-date">Apr 2026</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-quote">Dhana picked up new concepts quickly and brought a lot of enthusiasm to every task. Her attention to detail stood out during her internship with us.</div>
+        <div class="testimonial-person">
+          <div class="avatar">M</div>
+          <div>
+            <div class="person-name">Internship Mentor</div>
+            <div class="person-role">Machine Learning Team</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">A dependable and curious learner — always ready to dig deeper into a dataset until the story behind the numbers made sense.</div>
+        <div class="testimonial-person">
+          <div class="avatar">R</div>
+          <div>
+            <div class="person-name">Project Reviewer</div>
+            <div class="person-role">Data Analytics Internship</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sub-note">// Sample testimonials — swap in real quotes from your mentors/reviewers when ready</div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <div class="wrap">
+    <div class="contact-box">
+      <h2>Let's work together</h2>
+      <p>Open to data engineering and data analytics opportunities, internships, and collaborations.</p>
+      <div class="contact-links">
+        <a href="tel:8825814987">📞 8825814987</a>
+        <a href="mailto:nalansheela@gmail.com">✉️ Email</a>
+        <a href="https://www.linkedin.com/in/k-dhana-sheela-a6aa27314" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="#" id="githubLink">GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>designed &amp; built by K Dhana Sheela</footer>
+
+<script>
+  const roles = ["Data Analytics Intern", "Aspiring Data Engineer", "AI & DS Student"];
+  const el = document.getElementById('roleLine');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (prefersReduced) {
+    el.textContent = roles[0];
+  } else {
+    let roleIdx = 0, charIdx = 0, deleting = false;
+    function tick(){
+      const current = roles[roleIdx];
+      if(!deleting){
+        charIdx++;
+        el.innerHTML = current.slice(0, charIdx) + '<span class="cursor"></span>';
+        if(charIdx === current.length){ deleting = true; setTimeout(tick, 1400); return; }
+      } else {
+        charIdx--;
+        el.innerHTML = current.slice(0, charIdx) + '<span class="cursor"></span>';
+        if(charIdx === 0){ deleting = false; roleIdx = (roleIdx + 1) % roles.length; }
+      }
+      setTimeout(tick, deleting ? 45 : 85);
+    }
+    tick();
+  }
+
+  document.getElementById('githubLink').addEventListener('click', function(e){
+    e.preventDefault();
+    alert('Add your GitHub profile URL here.');
+  });
+</script>
+
+</body>
+</html>
